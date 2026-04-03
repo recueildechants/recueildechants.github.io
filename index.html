@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joël Sango — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07080f;
+      --surface: #0d0f1c;
+      --surface2: #12152a;
+      --border: rgba(255,255,255,0.06);
+      --blue: #007AFF;
+      --blue-glow: rgba(0,122,255,0.25);
+      --blue-dim: rgba(0,122,255,0.12);
+      --gold: #F5A623;
+      --gold-dim: rgba(245,166,35,0.12);
+      --text: #f0f0f5;
+      --muted: rgba(240,240,245,0.45);
+      --tag-bg: rgba(255,255,255,0.05);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ─────────────────────────────── */
+    #cursor {
+      position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--blue); mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      transition: width .15s, height .15s, opacity .15s;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998; pointer-events: none;
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(0,122,255,0.5);
+      transform: translate(-50%, -50%);
+      transition: transform .12s ease, width .2s, height .2s;
+    }
+    body:hover #cursor { opacity: 1; }
+
+    /* ── NOISE OVERLAY ─────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── NAV ───────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: rgba(7,8,15,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .9rem; color: var(--blue); letter-spacing: .04em;
+    }
+    .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ──────────────────────────────────────── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      padding: 7rem 3rem 4rem;
+    }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,122,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,122,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-glow {
+      position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 500px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(0,122,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative; max-width: 900px; width: 100%; text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; color: var(--blue);
+      letter-spacing: .15em; text-transform: uppercase;
+      border: 1px solid var(--blue-dim);
+      background: var(--blue-dim);
+      padding: .4rem 1rem; border-radius: 999px;
+      margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp .6s .2s forwards;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; } 50% { opacity: .3; }
+    }
+
+    .hero-name {
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800; line-height: 1.0;
+      letter-spacing: -.03em;
+      margin-bottom: 1.2rem;
+      opacity: 0; animation: fadeUp .7s .35s forwards;
+    }
+    .hero-name .accent { color: var(--blue); }
+
+    .hero-title {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--muted); font-weight: 400;
+      margin-bottom: 2.5rem; line-height: 1.6;
+      opacity: 0; animation: fadeUp .7s .5s forwards;
+    }
+    .hero-title strong { color: var(--text); font-weight: 600; }
+
+    .hero-terminal {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; text-align: left;
+      margin-bottom: 2.8rem;
+      opacity: 0; animation: fadeUp .7s .65s forwards;
+    }
+    .term-row { display: flex; align-items: center; gap: .6rem; }
+    .term-prompt { color: var(--blue); }
+    .term-cmd { color: var(--text); }
+    .term-out { color: var(--gold); padding-left: 1.1rem; margin-top: .3rem; }
+    .cursor-blink {
+      display: inline-block; width: 8px; height: 1em;
+      background: var(--blue); vertical-align: middle; margin-left: 2px;
+      animation: blink .9s steps(1) infinite;
+    }
+    @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+
+    .hero-ctas {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .7s .8s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .8rem 1.8rem; border-radius: 10px;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: .9rem; letter-spacing: .03em;
+      text-decoration: none; transition: all .22s; cursor: none;
+    }
+    .btn-primary {
+      background: var(--blue); color: #fff;
+      box-shadow: 0 0 30px var(--blue-glow);
+    }
+    .btn-primary:hover { background: #0a8aff; box-shadow: 0 0 50px rgba(0,122,255,.4); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: var(--tag-bg); color: var(--text);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SCROLL INDICATOR ─────────────────────────── */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      opacity: 0; animation: fadeUp .7s 1.1s forwards;
+    }
+    .scroll-hint span { font-size: .7rem; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+    .scroll-line {
+      width: 1px; height: 48px; background: linear-gradient(to bottom, var(--blue), transparent);
+      animation: scrollDrop 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── SECTIONS ──────────────────────────────────── */
+    section { position: relative; z-index: 1; padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: .75rem;
+      color: var(--blue); letter-spacing: .18em; text-transform: uppercase;
+      margin-bottom: .8rem; display: flex; align-items: center; gap: .6rem;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -.02em;
+      margin-bottom: 1rem; line-height: 1.15;
+    }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 520px; line-height: 1.7; margin-bottom: 3.5rem; }
+
+    /* ── ABOUT ─────────────────────────────────────── */
+    #about .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;
+    }
+    .about-text p {
+      color: var(--muted); line-height: 1.85; font-size: 1rem; margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+      background: var(--border);
+    }
+    .stat-card {
+      background: var(--surface); padding: 1.8rem;
+    }
+    .stat-num {
+      font-size: 2.4rem; font-weight: 800; color: var(--blue); line-height: 1;
+      margin-bottom: .3rem; letter-spacing: -.04em;
+    }
+    .stat-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-family: 'JetBrains Mono', monospace; }
+
+    /* ── SKILLS ────────────────────────────────────── */
+    #skills .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem;
+    }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .skill-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at top left, var(--card-glow, rgba(0,122,255,0.06)), transparent 70%);
+      transition: opacity .3s;
+    }
+    .skill-card:hover {
+      border-color: var(--card-border, rgba(0,122,255,0.4));
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px var(--card-shadow, rgba(0,122,255,0.12));
+    }
+    .skill-card.gold-card {
+      --card-glow: rgba(245,166,35,0.08);
+      --card-border: rgba(245,166,35,0.4);
+      --card-shadow: rgba(245,166,35,0.1);
+    }
+    .skill-icon {
+      font-size: 1.8rem; margin-bottom: .8rem; display: block;
+    }
+    .skill-name {
+      font-size: 1.1rem; font-weight: 700; margin-bottom: .3rem;
+    }
+    .skill-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+    .skill-badge {
+      display: inline-block; margin-top: .8rem;
+      font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+      padding: .2rem .65rem; border-radius: 6px;
+    }
+    .badge-blue { background: var(--blue-dim); color: var(--blue); }
+    .badge-gold { background: var(--gold-dim); color: var(--gold); }
+
+    /* ── PROJECTS ──────────────────────────────────── */
+    #projects .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.4rem;
+    }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem; position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover {
+      border-color: rgba(0,122,255,0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 70px rgba(0,122,255,0.1);
+    }
+    .project-card .card-corner {
+      position: absolute; top: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle at top right, var(--blue-dim), transparent 70%);
+    }
+    .project-platform {
+      display: flex; gap: .5rem; margin-bottom: 1.4rem;
+    }
+    .platform-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+      padding: .25rem .7rem; border-radius: 6px; background: var(--tag-bg);
+      color: var(--muted); border: 1px solid var(--border);
+    }
+    .platform-tag.ios { background: var(--blue-dim); color: var(--blue); border-color: transparent; }
+    .platform-tag.android { background: rgba(52,199,89,0.1); color: #34C759; border-color: transparent; }
+    .platform-tag.firebase { background: rgba(255,149,0,0.1); color: #FF9500; border-color: transparent; }
+    .project-name {
+      font-size: 1.3rem; font-weight: 800; margin-bottom: .5rem; letter-spacing: -.01em;
+    }
+    .project-desc { font-size: .88rem; color: var(--muted); line-height: 1.65; flex: 1; }
+    .project-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: 1.5rem; font-size: .82rem; font-weight: 700;
+      color: var(--blue); text-decoration: none; letter-spacing: .03em;
+      transition: gap .2s;
+    }
+    .project-link:hover { gap: .7rem; }
+    .project-link svg { width: 14px; height: 14px; }
+
+    /* ── STACK ─────────────────────────────────────── */
+    #stack { border-top: 1px solid var(--border); }
+    .lang-row {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: .5rem;
+    }
+    .lang-chip {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: .65rem 1.1rem;
+      font-family: 'JetBrains Mono', monospace; font-size: .85rem;
+      transition: all .2s;
+    }
+    .lang-chip:hover {
+      border-color: rgba(0,122,255,0.3);
+      background: var(--surface2);
+      transform: translateY(-2px);
+    }
+    .lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+      position: relative; z-index: 1;
+    }
+    .footer-name {
+      font-size: 1.1rem; font-weight: 800; letter-spacing: -.01em;
+    }
+    .footer-links {
+      display: flex; gap: 1rem;
+    }
+    .footer-links a {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .82rem; color: var(--muted); text-decoration: none;
+      padding: .5rem .9rem; border-radius: 8px;
+      border: 1px solid var(--border); transition: all .2s;
+    }
+    .footer-links a:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+    .footer-copy { font-size: .75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+    /* ── REVEAL ANIMATION ──────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s, transform .7s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      #about .about-grid { grid-template-columns: 1fr; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">js<span>();</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#stack">Stack</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Available for opportunities</div>
+    <h1 class="hero-name">Joël<br/><span class="accent">Sango</span></h1>
+    <p class="hero-title">
+      <strong>Apple Platform Engineer</strong> — crafting native iOS &amp; macOS experiences.<br/>
+      Multilingual developer. SpriteKit game dev in progress.
+    </p>
+    <div class="hero-terminal">
+      <div class="term-row">
+        <span class="term-prompt">~</span>
+        <span class="term-cmd">whoami</span>
+      </div>
+      <div class="term-out">// iOS Engineer · Swift · SpriteKit · Cross-platform<span class="cursor-blink"></span></div>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="https://drive.google.com/drive/folders/1MQfqxKQS-pf3w3pjcZ9TtwbfnX2TwQvZ?usp=share_link" target="_blank">
+        ↓ Download CV
+      </a>
+      <a class="btn btn-outline" href="https://linkedin.com/in/itsjoelsango" target="_blank">LinkedIn</a>
+      <a class="btn btn-outline" href="https://github.com/itsjoelsango" target="_blank">GitHub</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 / About</div>
+  <h2 class="section-title reveal">Building for the<br/>Apple ecosystem.</h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>
+        I'm <strong>Joël Sango</strong>, a software engineer specializing in <strong>Apple platforms</strong>. My day-to-day is writing Swift and building polished native iOS experiences — performance, architecture, and UX are always top of mind.
+      </p>
+      <p>
+        In my spare time I'm leveling up in <strong>iOS game development with SpriteKit</strong>, exploring physics, sprite animation, and game-loop mechanics. I believe game dev sharpens the kind of thinking every great app engineer needs.
+      </p>
+      <p>
+        I'm a polyglot developer: fluent in <strong>Swift, Kotlin, C/C++, Python, and JavaScript</strong> — comfortable diving into cross-platform code, tooling, and systems work whenever the project demands it.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Languages</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Apps on App Store</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">iOS</div>
+        <div class="stat-label">Primary Platform</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--gold)">🎮</div>
+        <div class="stat-label">SpriteKit Game Dev</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">02 / Skills</div>
+  <h2 class="section-title reveal">What I bring<br/>to the table.</h2>
+  <p class="section-sub reveal">Deep Apple-native expertise paired with cross-platform versatility.</p>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <span class="skill-icon">🍎</span>
+      <div class="skill-name">iOS / macOS Development</div>
+      <div class="skill-desc">Native app development using Swift, UIKit, SwiftUI, and the full Apple SDK stack. Strong understanding of the HIG, memory management, and App Store workflows.</div>
+      <span class="skill-badge badge-blue">Primary Expertise</span>
+    </div>
+    <div class="skill-card reveal gold-card">
+      <span class="skill-icon">🎮</span>
+      <div class="skill-name">SpriteKit &amp; Game Dev</div>
+      <div class="skill-desc">Learning iOS game development with SpriteKit — physics simulation, scene graphs, sprite animation, and real-time game loops.</div>
+      <span class="skill-badge badge-gold">In Progress</span>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🤖</span>
+      <div class="skill-name">Android / Kotlin</div>
+      <div class="skill-desc">Cross-platform mobile development using Kotlin. Experience shipping Android apps with Firebase for real-time data, auth, and analytics.</div>
+      <span class="skill-badge badge-blue">Mobile</span>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">⚡</span>
+      <div class="skill-name">C / C++ Systems</div>
+      <div class="skill-desc">Low-level systems programming, performance-critical code, and algorithmic problem solving with C and C++. Solid computer science foundations.</div>
+      <span class="skill-badge badge-blue">Systems</span>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🐍</span>
+      <div class="skill-name">Python</div>
+      <div class="skill-desc">Scripting, automation, data processing and tooling. Used for build pipelines, prototyping algorithms, and anything that needs to get done quickly.</div>
+      <span class="skill-badge badge-blue">Scripting</span>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🌐</span>
+      <div class="skill-name">JavaScript</div>
+      <div class="skill-desc">Frontend and scripting — comfortable across the JS ecosystem for web tooling, utilities, and wherever the platform calls for it.</div>
+      <span class="skill-badge badge-blue">Web</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">03 / Projects</div>
+  <h2 class="section-title reveal">Shipped work &amp;<br/>side projects.</h2>
+  <p class="section-sub reveal">From App Store releases to learning-driven builds.</p>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="card-corner"></div>
+      <div class="project-platform">
+        <span class="platform-tag ios">iOS</span>
+        <span class="platform-tag">App Store</span>
+      </div>
+      <div class="project-name">RC iOS App</div>
+      <div class="project-desc">A native iOS application available on the App Store. Built with Swift with a focus on performance and a smooth user experience consistent with Apple's Human Interface Guidelines.</div>
+      <a class="project-link" href="https://apple.co/42thJFm" target="_blank">
+        View on App Store
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-corner"></div>
+      <div class="project-platform">
+        <span class="platform-tag ios">iOS</span>
+        <span class="platform-tag">App Store</span>
+      </div>
+      <div class="project-name">RM iOS App</div>
+      <div class="project-desc">A second native iOS app released on the App Store. Demonstrates consistent ability to take a project from development through App Review to a live, public release.</div>
+      <a class="project-link" href="https://apple.co/3Ys5wzG" target="_blank">
+        View on App Store
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-corner" style="background: radial-gradient(circle at top right, rgba(52,199,89,0.12), transparent 70%)"></div>
+      <div class="project-platform">
+        <span class="platform-tag android">Android</span>
+        <span class="platform-tag firebase">Firebase</span>
+      </div>
+      <div class="project-name">African Recipe</div>
+      <div class="project-desc">An Android app celebrating African cuisine. Powered by Firebase for real-time data sync and backend services, showcasing cross-platform mobile skills beyond iOS.</div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-corner" style="background: radial-gradient(circle at top right, rgba(245,166,35,0.12), transparent 70%)"></div>
+      <div class="project-platform">
+        <span class="platform-tag ios">iOS</span>
+        <span class="platform-tag" style="background:rgba(245,166,35,0.1);color:#F5A623;border-color:transparent;">SpriteKit</span>
+      </div>
+      <div class="project-name">Concentration Game</div>
+      <div class="project-desc">A memory concentration game built for iOS — my SpriteKit game development learning project. Applying game-loop design, scene management, and animation to a real playable experience.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section-label">04 / Tech Stack</div>
+  <h2 class="section-title reveal">Languages &amp; Tools</h2>
+  <p class="section-sub reveal">The languages I write in, from systems to scripting to mobile.</p>
+  <div class="lang-row reveal">
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#F05138"></span>Swift
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#7F52FF"></span>Kotlin
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#00599C"></span>C / C++
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#3776AB"></span>Python
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#F7DF1E"></span>JavaScript
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#007AFF"></span>SpriteKit
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#FF6C37"></span>Firebase
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#ffffff;opacity:.6"></span>Xcode
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#F4F4F4;opacity:.5"></span>UIKit / SwiftUI
+    </div>
+    <div class="lang-chip">
+      <span class="lang-dot" style="background:#4CAF50"></span>Android Studio
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">Joël Sango</div>
+    <div class="footer-copy" style="margin-top:.4rem;">Apple Platform Engineer · Open to opportunities</div>
+  </div>
+  <div class="footer-links">
+    <a href="https://linkedin.com/in/itsjoelsango" target="_blank">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://github.com/itsjoelsango" target="_blank">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+      GitHub
+    </a>
+    <a href="https://drive.google.com/drive/folders/1MQfqxKQS-pf3w3pjcZ9TtwbfnX2TwQvZ?usp=share_link" target="_blank">
+      ↓ CV
+    </a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
+  (function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) *.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a, button, .skill-card, .project-card, .lang-chip').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width='22px'; cur.style.height='22px'; ring.style.width='56px'; ring.style.height='56px'; });
+    el.addEventListener('mouseleave', () => { cur.style.width='12px'; cur.style.height='12px'; ring.style.width='36px'; ring.style.height='36px'; });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
