@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recueil de Chants (RC) – Your Ultimate Digital Christian Songbook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a84c; --gold-light: #e8d08a;
+      --ink: #1a1714; --warm-white: #faf8f4;
+      --muted: #6b6560; --border: #e2ddd6; --section-bg: #f5f1ea;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--warm-white); color: var(--ink); line-height: 1.7; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,248,244,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+    .nav-link:hover { color: var(--gold); }
+    .nav-lang { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; color: var(--gold); text-decoration: none; border: 1px solid rgba(201,168,76,0.4); padding: 0.2rem 0.65rem; border-radius: 100px; transition: background 0.2s; }
+    .nav-lang:hover { background: rgba(201,168,76,0.1); }
+
+    .hero {
+      min-height: 88vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.10) 0%, transparent 70%), var(--warm-white);
+      position: relative; overflow: hidden;
+    }
+    .hero::before { content: '✝'; position: absolute; top: 4rem; right: 6%; font-size: 22rem; color: rgba(201,168,76,0.04); line-height: 1; pointer-events: none; user-select: none; }
+    .hero-inner { max-width: 720px; position: relative; }
+    .hero-eyebrow { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; padding: 0.3rem 1rem; border: 1px solid rgba(201,168,76,0.4); border-radius: 100px; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 7vw, 4.4rem); font-weight: 600; line-height: 1.12; color: var(--ink); margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p { font-size: 1.05rem; font-weight: 300; color: var(--muted); max-width: 540px; margin: 0 auto 2.8rem; }
+    .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--ink); color: var(--warm-white); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; padding: 0.85rem 2rem; border-radius: 4px; transition: background 0.2s, transform 0.2s; }
+    .hero-cta:hover { background: var(--gold); transform: translateY(-2px); }
+
+    section { padding: 6rem 2rem; }
+    .container { max-width: 860px; margin: 0 auto; }
+    .section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.8rem; }
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; line-height: 1.2; margin-bottom: 1.4rem; }
+    .lead { font-size: 1.05rem; font-weight: 300; color: var(--muted); max-width: 620px; margin-bottom: 2rem; }
+    .divider { width: 60px; height: 2px; background: var(--gold); margin: 1.5rem 0; }
+
+    .features-section { background: var(--section-bg); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .feature-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: box-shadow 0.2s, transform 0.2s; }
+    .feature-card:hover { box-shadow: 0 8px 30px rgba(26,23,20,0.08); transform: translateY(-3px); }
+    .feature-icon { font-size: 1.6rem; margin-bottom: 1rem; display: block; }
+    .feature-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+    .services-section { background: var(--ink); color: var(--warm-white); }
+    .services-section .section-label { color: var(--gold-light); }
+    .services-section h2 { color: var(--warm-white); }
+    .services-section .lead { color: rgba(250,248,244,0.65); }
+    .services-section .divider { background: var(--gold-light); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.4rem; margin-top: 2.5rem; }
+    .service-card { border: 1px solid rgba(201,168,76,0.2); border-radius: 8px; padding: 1.8rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .service-badge { display: inline-block; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.65rem; border-radius: 100px; border: 1px solid rgba(201,168,76,0.4); color: var(--gold-light); margin-bottom: 0.3rem; width: fit-content; }
+    .service-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--warm-white); }
+    .service-card p { font-size: 0.87rem; color: rgba(250,248,244,0.58); line-height: 1.65; }
+    .service-card ul { list-style: none; margin-top: 0.3rem; }
+    .service-card li { font-size: 0.83rem; color: rgba(250,248,244,0.55); padding: 0.25rem 0; display: flex; gap: 0.5rem; }
+    .service-card li::before { content: '·'; color: var(--gold-light); }
+
+    .privacy-section { background: var(--section-bg); }
+    .privacy-box { background: var(--warm-white); border: 1px solid var(--border); border-left: 4px solid var(--gold); border-radius: 8px; padding: 2rem 2.4rem; margin-top: 2rem; }
+    .privacy-box p { font-size: 0.93rem; color: var(--muted); margin-bottom: 1rem; }
+    .privacy-box p:last-child { margin-bottom: 0; }
+    .privacy-box a { color: var(--gold); text-decoration: underline; }
+
+    .contact-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--gold); text-decoration: none; font-weight: 500; font-size: 0.95rem; border-bottom: 1px solid rgba(201,168,76,0.4); padding-bottom: 2px; transition: border-color 0.2s; }
+    .contact-link:hover { border-color: var(--gold); }
+
+    footer { background: var(--ink); color: rgba(250,248,244,0.5); padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; }
+    footer .brand { font-family: 'Cormorant Garamond', serif; color: var(--warm-white); font-size: 1rem; }
+    footer a { color: rgba(250,248,244,0.5); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      section { padding: 4rem 1.2rem; }
+      .hero { padding: 5rem 1.2rem 3rem; }
+      .hero::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Recueil de Chants</a>
+  <div class="nav-links">
+    <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
+    <a href="index-fr.html" class="nav-lang">FR</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Digital Christian Songbook</span>
+    <h1>Recueil de Chants — <em>RC</em></h1>
+    <p>Your entire library of worship songs and hymns, always at your fingertips. Search, save, and sing — anytime, anywhere.</p>
+    <a href="#features" class="hero-cta">Explore the App</a>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <span class="section-label">About RC</span>
+    <h2>A songbook built for the faithful</h2>
+    <div class="divider"></div>
+    <p class="lead">As a devoted Christian, having all your favorite worship songs and hymns in one accessible app is a true blessing. RC is the digital songbook designed to transform how you access and enjoy your cherished spiritual music — freeing you from bulky physical books forever.</p>
+  </div>
+</section>
+
+<section id="features" class="features-section">
+  <div class="container">
+    <span class="section-label">Key Features</span>
+    <h2>Everything you need for worship</h2>
+    <div class="divider"></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">📶</span>
+        <h3>Offline Access</h3>
+        <p>All song lyrics are stored locally on your device. No internet connection? No problem — your songs are always available.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⭐</span>
+        <h3>Personalized Favorites</h3>
+        <p>Save your go-to songs in a curated Favorites list. Retrieve them instantly whenever worship calls.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🔍</span>
+        <h3>Intuitive Search</h3>
+        <p>Find any hymn or contemporary worship song in seconds with our powerful, lightning-fast search.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🎨</span>
+        <h3>Customizable Themes</h3>
+        <p>Personalize your RC experience with beautiful visual themes that suit your style and enhance focus during worship.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services-section">
+  <div class="container">
+    <span class="section-label">Third-Party Services</span>
+    <h2>How we keep RC free &amp; stable</h2>
+    <div class="divider"></div>
+    <p class="lead">RC uses two industry-standard services — one to display ads that keep the app free, and one to automatically detect crashes so we can fix them fast. Neither service is operated by RC.</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <span class="service-badge">Advertising</span>
+        <h4>Google AdMob</h4>
+        <p>Displays ads so the app remains free for everyone. AdMob may collect:</p>
+        <ul>
+          <li>Device advertising identifier (IDFA / GAID)</li>
+          <li>IP address &amp; approximate location</li>
+          <li>Device type &amp; OS version</li>
+          <li>Ad impression &amp; interaction data</li>
+        </ul>
+        <p style="margin-top:0.6rem">Governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:#e8d08a">Google's Privacy Policy</a>. Manage your preferences at <a href="https://adssettings.google.com" target="_blank" rel="noopener" style="color:#e8d08a">adssettings.google.com</a>.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-badge">Crash Reporting</span>
+        <h4>Firebase Crashlytics</h4>
+        <p>Automatically reports crashes so we can diagnose and fix stability issues quickly. If a crash occurs, Crashlytics collects:</p>
+        <ul>
+          <li>Crash stack trace &amp; signal type (e.g. SIGSEGV)</li>
+          <li>App version &amp; build number</li>
+          <li>iOS version &amp; device model</li>
+          <li>Device locale &amp; time zone</li>
+          <li>Timestamp of the crash</li>
+        </ul>
+        <p style="margin-top:0.6rem">No names, emails, or personal identity are ever included. Governed by <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener" style="color:#e8d08a">Google Firebase Privacy Policy</a>.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="privacy-section">
+  <div class="container">
+    <span class="section-label">Privacy</span>
+    <h2>Your privacy matters</h2>
+    <div class="divider"></div>
+    <p class="lead">RC itself collects no personal data. The only information that ever leaves your device is anonymous crash diagnostics — to help us fix bugs — and advertising signals, both handled entirely by Google's infrastructure.</p>
+    <div class="privacy-box">
+      <p><strong>RC collects:</strong> Nothing. No accounts, no personal information, no usage analytics.</p>
+      <p><strong>Firebase Crashlytics may collect:</strong> Anonymous technical data — crash stack traces, device model, OS &amp; app version, locale, time zone, and crash timestamp.</p>
+      <p><strong>Google AdMob may collect:</strong> Device advertising identifiers and interaction data to serve and measure ads.</p>
+      <p>For full details, please read our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <span class="section-label">Get in Touch</span>
+    <h2>Contact Us</h2>
+    <div class="divider"></div>
+    <p class="lead">Have questions, feedback, or suggestions? We'd love to hear from you.</p>
+    <a href="mailto:appdevwithme@gmail.com" class="contact-link">✉ appdevwithme@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <span class="brand">Recueil de Chants</span>
+  <div class="footer-links">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="index-fr.html">Français</a>
+  </div>
+  <span>© 2025 RC — Michaël JS. All rights reserved.</span>
+</footer>
+
+</body>
+</html>

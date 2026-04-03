@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Recueil de Chants (RC)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a84c; --ink: #1a1714; --warm-white: #faf8f4;
+      --muted: #6b6560; --border: #e2ddd6; --section-bg: #f5f1ea;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--warm-white); color: var(--ink); line-height: 1.8; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(250,248,244,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+    .nav-link:hover { color: var(--gold); }
+    .nav-lang { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; color: var(--gold); text-decoration: none; border: 1px solid rgba(201,168,76,0.4); padding: 0.2rem 0.65rem; border-radius: 100px; transition: background 0.2s; }
+    .nav-lang:hover { background: rgba(201,168,76,0.1); }
+
+    .page-header { background: var(--section-bg); border-bottom: 1px solid var(--border); padding: 5rem 2rem 3.5rem; text-align: center; }
+    .eyebrow { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; padding: 0.3rem 1rem; border: 1px solid rgba(201,168,76,0.4); border-radius: 100px; }
+    .page-header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 600; margin-bottom: 0.8rem; }
+    .page-header .date { font-size: 0.83rem; color: var(--muted); }
+
+    .content { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    .intro-box { background: var(--section-bg); border-left: 4px solid var(--gold); border-radius: 6px; padding: 1.5rem 2rem; margin-bottom: 3.5rem; font-size: 0.95rem; color: var(--muted); }
+
+    .policy-section { margin-bottom: 3rem; }
+    .policy-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; font-weight: 600; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+    .section-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--gold); color: var(--warm-white); border-radius: 50%; font-size: 0.75rem; font-weight: 500; font-family: 'DM Sans', sans-serif; flex-shrink: 0; }
+    .policy-section p { font-size: 0.95rem; color: var(--muted); margin-bottom: 1rem; }
+    .policy-section p:last-child { margin-bottom: 0; }
+    .policy-section strong { color: var(--ink); font-weight: 500; }
+    .policy-section a { color: var(--gold); text-decoration: underline; }
+
+    .highlight-box { background: #fff8ec; border: 1px solid rgba(201,168,76,0.3); border-radius: 6px; padding: 1.2rem 1.5rem; margin: 1rem 0; font-size: 0.9rem; color: var(--ink); }
+    .highlight-box ul { list-style: none; margin-top: 0.5rem; }
+    .highlight-box li { padding: 0.3rem 0; display: flex; gap: 0.5rem; }
+    .highlight-box li::before { content: '→'; color: var(--gold); flex-shrink: 0; }
+
+    .data-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.88rem; }
+    .data-table th { text-align: left; padding: 0.6rem 0.9rem; background: var(--section-bg); font-weight: 500; color: var(--ink); border: 1px solid var(--border); }
+    .data-table td { padding: 0.6rem 0.9rem; color: var(--muted); border: 1px solid var(--border); vertical-align: top; }
+    .data-table tr:nth-child(even) td { background: #fdfaf6; }
+
+    footer { background: var(--ink); color: rgba(250,248,244,0.5); padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; }
+    footer .brand { font-family: 'Cormorant Garamond', serif; color: var(--warm-white); font-size: 1rem; }
+    footer a { color: rgba(250,248,244,0.5); text-decoration: none; }
+    footer a:hover { color: #e8d08a; }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .content { padding: 2.5rem 1.2rem 4rem; }
+      .page-header { padding: 3.5rem 1.2rem 2.5rem; }
+      .data-table { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Recueil de Chants</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">← Home</a>
+    <a href="politique-de-confidentialite.html" class="nav-lang">FR</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <span class="eyebrow">Legal</span>
+  <h1>Privacy Policy</h1>
+  <p class="date">Effective Date: 2025-05-01 &nbsp;·&nbsp; Last Updated: 2025-05-01</p>
+</div>
+
+<div class="content">
+
+  <div class="intro-box">
+    This Privacy Policy describes how <strong>Recueil de Chants (RC)</strong> ("App", "we", "us", or "our"), developed by Michaël JS, handles information when you use the App on iOS or Android devices. By using the App, you agree to the practices described in this policy.
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">1</span> Information We Collect</h2>
+    <p><strong>Information Collected by RC Directly</strong></p>
+    <p>RC does not collect, store, or transmit any personal data from its users. The App operates entirely on-device. You are not required to create an account or provide any personal information to use RC.</p>
+    <p><strong>Information Collected by Third-Party Services</strong></p>
+    <p>RC integrates two third-party services — Google AdMob and Firebase Crashlytics — which may collect certain data automatically, as detailed below.</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Purpose</th>
+          <th>Data Collected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Google AdMob</strong></td>
+          <td>Display advertisements to keep the app free</td>
+          <td>Device advertising identifier (IDFA / GAID), IP address, approximate location (country/region), device type, OS version, ad impression and interaction events</td>
+        </tr>
+        <tr>
+          <td><strong>Firebase Crashlytics</strong></td>
+          <td>Detect and report app crashes for stability improvements</td>
+          <td>Crash stack trace, signal type (e.g. SIGSEGV, SIGABRT), app version, build number, iOS version, device model, device locale, time zone, crash timestamp</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The crash data collected by Firebase Crashlytics corresponds directly to the diagnostic information recorded by RC's built-in crash reporter (report type, reason, stack trace, and device info). <strong>No names, email addresses, user-generated content, or any personally identifying information are included in crash reports.</strong></p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">2</span> How Information Is Used</h2>
+    <p><strong>By RC:</strong> RC does not use your personal data for any purpose because we do not collect it.</p>
+    <p><strong>By Firebase Crashlytics:</strong> Crash report data is used solely to identify, diagnose, and fix stability issues within the App. We review crash reports in the Firebase console to prioritize bug fixes and improve the user experience. We do not use crash data for advertising, marketing, or profiling.</p>
+    <p><strong>By Google AdMob:</strong> AdMob uses device and interaction data to deliver relevant advertisements, measure ad performance, and prevent advertising fraud. RC does not use this data for any other purpose.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">3</span> Third-Party Services &amp; Their Policies</h2>
+    <p>RC's sole third-party integrations are Google AdMob and Firebase Crashlytics, both operated by Google LLC. We encourage you to review their policies:</p>
+    <div class="highlight-box">
+      <ul>
+        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+        <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy and Security</a></li>
+        <li><a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">How Google uses data when you use AdMob partners' apps</a></li>
+        <li><a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ad Settings (manage ad personalization)</a></li>
+      </ul>
+    </div>
+    <p>RC has no access to, and does not control, the data retained by Google's infrastructure beyond what is surfaced in the Firebase and AdMob developer consoles.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">4</span> Advertising &amp; Your Choices</h2>
+    <p>RC displays ads provided by Google AdMob to support the free availability of the App. You have the following options to control ad personalization:</p>
+    <p><strong>On iOS:</strong> Go to <em>Settings → Privacy &amp; Security → Apple Advertising</em> and disable "Personalized Ads." You can also reset your Advertising Identifier from this menu.</p>
+    <p><strong>On Android:</strong> Go to <em>Settings → Google → Ads</em> and enable "Opt out of Ads Personalization," or reset your Advertising ID.</p>
+    <p><strong>Via Google:</strong> Visit <a href="https://adssettings.google.com" target="_blank" rel="noopener">adssettings.google.com</a> to manage how Google uses your data across its advertising services.</p>
+    <p>Opting out of personalized ads does not remove advertisements from the App; non-personalized ads will be shown instead.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">5</span> Data Security</h2>
+    <p>All app content — song lyrics, favorites, and theme preferences — is stored locally on your device and never transmitted to RC servers. RC operates no backend servers or databases.</p>
+    <p>Crash reports transmitted to Firebase Crashlytics and ad data transmitted to AdMob are protected by Google's enterprise-grade security infrastructure, including encryption in transit and at rest.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">6</span> Children's Privacy</h2>
+    <p>RC is designed to be family-friendly and suitable for users of all ages. The App does not knowingly collect personal data from children under the age of 13 (or the applicable age of digital consent in your jurisdiction).</p>
+    <p>Firebase Crashlytics crash reports contain no personal identity data and therefore do not pose a privacy risk to child users. If you believe a child has been exposed to inappropriate advertising content through the App, please contact us at the address in Section 9 and we will take appropriate action.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">7</span> International Users &amp; Data Transfers</h2>
+    <p>RC itself does not transfer any personal data across borders, as it collects none. Crash diagnostic data sent to Firebase and advertising data sent to AdMob may be processed on Google's global infrastructure, which includes servers outside your country of residence. These transfers are governed by Google's data transfer mechanisms, including Standard Contractual Clauses where applicable.</p>
+    <p>Please refer to <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Google Firebase's Privacy documentation</a> for full details on their data transfer practices.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">8</span> Changes to This Privacy Policy</h2>
+    <p>We may update this Privacy Policy from time to time to reflect changes in our practices, new third-party integrations, or legal requirements. When we make material changes, we will update the "Effective Date" and "Last Updated" fields at the top of this page.</p>
+    <p>You are encouraged to review this policy periodically. Continued use of the App after changes are posted constitutes your acceptance of the updated policy.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">9</span> Contact Us</h2>
+    <p>If you have any questions, concerns, or requests regarding this Privacy Policy or the App's data practices, please contact us:</p>
+    <div class="highlight-box">
+      <ul>
+        <li><strong>App:</strong> Recueil de Chants (RC)</li>
+        <li><strong>Developer:</strong> Michaël JS</li>
+        <li><strong>Email:</strong> <a href="mailto:appdevwithme@gmail.com">appdevwithme@gmail.com</a></li>
+      </ul>
+    </div>
+    <p>We will respond to all privacy-related inquiries within a reasonable timeframe.</p>
+  </div>
+
+</div>
+
+<footer>
+  <span class="brand">Recueil de Chants</span>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="politique-de-confidentialite.html">Politique de confidentialité (FR)</a>
+  </div>
+  <span>© 2025 RC — Michaël JS. All rights reserved.</span>
+</footer>
+
+</body>
+</html>
